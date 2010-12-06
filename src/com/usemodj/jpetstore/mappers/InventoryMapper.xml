@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.usemodj.jpetstore.mappers.InventoryMapper">
+
+	<select id="selectQtyByItemId" parameterType="string" resultType="_int">
+		SELECT qty 
+			FROM inventory 
+			WHERE itemid = #{itemId}
+	</select>
+	<select id="selectInventoryByItemId" parameterType="string" 
+				resultType="com.usemodj.jpetstore.domain.Inventory">
+		SELECT itemid AS itemId, 
+						qty AS qty 
+			FROM inventory 
+			WHERE itemid = #{itemId}
+	</select>
+	<update id="updateQuantity" parameterType="Inventory">
+		UPDATE inventory
+			SET qty = qty - #{qty}
+			WHERE itemid = #{itemId}
+	</update>
+</mapper>

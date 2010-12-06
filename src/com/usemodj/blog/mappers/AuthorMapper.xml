@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.usemodj.blog.mappers.AuthorMapper">
+
+  <parameterMap id="selectAuthor"
+                type="com.usemodj.blog.domain.Author">
+    <parameter property="id"/>
+  </parameterMap>
+
+  <resultMap id="selectAuthor" type="com.usemodj.blog.domain.Author">
+    <id column="id" property="id"/>
+    <result property="username" column="username"/>
+    <result property="password" column="password"/>
+    <result property="email" column="email"/>
+    <result property="bio" column="bio"/>
+    <result property="favouriteSection" column="favourite_section"/>
+  </resultMap>
+
+  <resultMap id="selectImmutableAuthor" type="com.usemodj.blog.domain.ImmutableAuthor">
+    <constructor>
+      <idArg column="id" javaType="_int"/>
+      <arg column="username" javaType="string"/>
+      <arg column="password" javaType="string"/>
+      <arg column="email" javaType="string"/>
+      <arg column="bio" javaType="string"/>
+      <arg column="favourite_section" javaType="com.usemodj.blog.domain.Section"/>
+    </constructor>
+  </resultMap>
+
+  <select id="selectAllAuthors"
+          resultType="com.usemodj.blog.domain.Author">
+    select * from author
+  </select>
+
+  <select id="selectAuthor" parameterType="_int" resultMap="selectAuthor">
+    select id, username, password, email, bio, favourite_section
+    from author where id = #{id}
+  </select>
+
+  <select id="selectImmutableAuthor"
+          parameterType="_int"
+          resultMap="selectImmutableAuthor">
+    select id, username, password, email, bio, favourite_section
+    from author where id = #{id}
+  </select>
+
+  <select id="selectAuthorWithInlineParams"
+          parameterType="_int"
+          resultType="com.usemodj.blog.domain.Author">
+    select * from author where id = #{id}
+  </select>
+
+  <insert id="insertAuthor"
+          parameterType="com.usemodj.blog.domain.Author">
+    insert into Author (id,username,password,email,bio)
+    values (#{id},#{username},#{password},#{email},#{bio})
+  </insert>
+
+  <update id="updateAuthor"
+          parameterType="com.usemodj.blog.domain.Author">
+    update Author
+    set username=#{username,
+                 javaType=String},
+        password=#{password},
+        email=#{email},
+        bio=#{bio}
+    where id=#{id}
+  </update>
+
+  <delete id="deleteAuthor"
+          parameterType="_int">
+    delete from Author where id = #{id}
+  </delete>
+
+
+  <update id="updateAuthorIfNecessary"
+          parameterType="com.usemodj.blog.domain.Author">
+    update Author
+    <set>
+      <if test="username != null">username=#{username},</if>
+      <if test="password != null">password=#{password},</if>
+      <if test="email != null">email=#{email},</if>
+      <if test="bio != null">bio=#{bio}</if>
+    </set>
+    where id=#{id}
+  </update>
+
+
+</mapper>

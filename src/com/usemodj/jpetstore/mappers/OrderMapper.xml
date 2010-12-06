@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.usemodj.jpetstore.mappers.OrderMapper">
+	<insert id="insertOrderShippingAddr" parameterType="Order">
+		INSERT INTO orders (orderid, userid, orderdate, shipaddr1,shipaddr2, shipzip, shipPhone, shipCellphone)
+			VALUES (#{orderId}, #{username}, #{orderDate}, #{shipAddress1}, #{shipAddress2}, #{shipZip}, #{shipPhone},#{shipCellphone})
+	</insert>
+	<insert id="insertOrderStatus" parameterType="OrderStatus">
+		INSERT INTO orderstatus (orderid, linenum, timestamp, status)
+			VALUES (#{orderId}, #{lineNumber}, #{timestamp}, #{status})
+	</insert>
+	
+	<resultMap id="joinedOrderStatus" type="OrderStatus">
+		<id property="orderId"       column="orderstatus_orderid"		/> 
+		<id property="lineNumber"    column="orderstatus_linenum"		/> 
+		<result property="timestamp" column="orderstatus_timestamp"	/> 
+		<result property="status"    column="orderstatus_status"		/> 
+	</resultMap>
+	<resultMap id="joinedLineItem" type="LineItem">
+		<id property="orderId"   			column="lineitem_orderid"  />
+		<id property="lineNumber"    	column="lineitem_linenum"  />
+		<result property="itemId"  		column="lineitem_itemid" 	/> 
+		<result property="quantity"   column="lineitem_quantity" /> 
+		<result property="unitPrice" 	column="lineitem_unitprice"/> 
+		<result property="total" 			column="lineitem_total"/> 
+	</resultMap>
+	<resultMap id="orderJoinedWithOrderStatusAndLineItem" type="Order">
+		<id property="orderId"           column="order_orderid" 		/> 
+		<result property="username"      column="order_userid" 		  /> 
+		<result property="orderDate"     column="order_orderdate" 	/> 
+		<result property="shipAddress1"  column="order_shipaddr1" 	/> 
+		<result property="shipAddress2"  column="order_shipaddr2" 	/> 
+		<result property="shipCity"      column="order_shipcity" 	  /> 
+		<result property="shipState"     column="order_shipstate"	  /> 
+		<result property="shipZip"       column="order_shipzip" 		/> 
+    <result property="shipPhone"     column="order_shipPhone"   /> 
+    <result property="shipCellphone" column="order_shipCellphone"/> 
+		<result property="shipCountry"   column="order_shipcountry" /> 
+		<result property="totalPrice"    column="order_totalprice"  />
+		<collection property="lineItems" column="order_orderid" resultMap="joinedLineItem"/> 
+		<collection property="orderStatuses" column="order_orderid" resultMap="joinedOrderStatus"/> 
+	</resultMap>
+	<select id="selectOrderListByUserId" parameterType="string" resultMap="orderJoinedWithOrderStatusAndLineItem">
+		SELECT 
+			O.orderid 		AS order_orderid, 	
+			O.userid 		  AS order_userid, 		
+			O.orderdate 	AS order_orderdate, 
+			O.shipaddr1 	AS order_shipaddr1, 
+			O.shipaddr2 	AS order_shipaddr2, 
+			O.shipcity 	  AS order_shipcity,	
+			O.shipstate	  AS order_shipstate,	
+			O.shipzip 		AS order_shipzip,	
+      O.shipPhone   AS order_shipPhone, 
+      O.shipCellphone     AS order_shipCellphone, 
+			O.shipcountry AS order_shipcountry,
+			O.totalprice  AS order_totalprice,
+			
+			S.orderid			AS orderstatus_orderid,	
+			S.linenum		  AS orderstatus_linenum,	
+			S.timestamp	  AS orderstatus_timestamp,
+			S.status		  AS orderstatus_status,
+			
+			L.orderid  		AS lineitem_orderid, 
+			L.linenum     AS lineitem_linenum,  
+			L.itemid 	    AS lineitem_itemid, 	
+			L.quantity    AS lineitem_quantity, 
+			L.unitprice   AS lineitem_unitprice,
+			(L.quantity * L.unitprice) AS lineitem_total
+		FROM orders O
+			LEFT OUTER JOIN orderstatus S ON O.orderid = S.orderid
+			LEFT OUTER JOIN lineitem		L ON O.orderid = L.orderid
+		WHERE O.userid = #{userId} AND S.linenum = L.linenum
+		ORDER BY O.orderid DESC, S.linenum ASC		
+	</select>
+	
+</mapper>

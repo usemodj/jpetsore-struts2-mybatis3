@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.usemodj.jpetstore.mappers.ProductMapper">
+	<select id="selectProductList" parameterType="string" 
+				resultType="com.usemodj.jpetstore.domain.Product">
+		SELECT                         
+			productid	AS productId,				
+			category	AS categoryId,				
+			name			AS name,							
+			descn			AS description,
+			status    AS status			
+		FROM product                   
+		WHERE category = #{categoryId} 
+	</select>
+	
+</mapper>

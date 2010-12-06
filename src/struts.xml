@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <constant name="struts.enable.DynamicMethodInvocation" value="true" />
+    <constant name="struts.devMode" value="true" />
+
+    <package name="default" namespace="/" extends="struts-default">
+		<!-- setup the default-stack exception mapping interceptor 
+ 		so that any exceptions not caught by this application 
+ 		will be logged and then handled by the global exception 
+ 		mapping -->
+   		<interceptors>
+  	 		<interceptor-stack name="appDefault">
+  	        	 <interceptor-ref name="defaultStack">
+  	      			<param name="exception.logEnabled">true</param>
+  	      			<param name="exception.logLevel">ERROR</param>
+  	   			</interceptor-ref>
+  	 	    </interceptor-stack>
+  		</interceptors>
+  		
+  		<default-interceptor-ref name="appDefault" />
+      <default-action-ref name="index" />
+		
+      <global-results>
+  		  <result name="error">/error.jsp</result>
+  		  <result name="securityerror">/securityerror.jsp</result>
+	    </global-results>
+  	    
+	    <global-exception-mappings>
+	        <!-- <exception-mapping exception="org.apache.struts.register.exceptions.SecurityBreachException" result="securityerror" /> -->
+	        <exception-mapping exception="java.lang.Exception" result="error" />
+	   	</global-exception-mappings>
+    
+      <action name="index" class="com.usemodj.struts.action.BaseAction">
+         <result>/home.jsp</result>
+      </action>
+	    <action name="login_*" class="com.usemodj.jpetstore.struts.action.LoginAction" method="{1}">
+	        <result name="input">/signon/login.jsp</result>
+	        <result name="success" type="redirectAction">index.action</result>
+	    		<result name="redirect" type="redirect">${url}</result>
+	    </action>
+	    <action name="logout" class="com.usemodj.jpetstore.struts.action.LogoutAction" method="execute">
+	        <result name="input">/signon/login.jsp</result>
+					<result name="redirect" type="redirect">${url}</result>
+	    		<result name="success" type="redirectAction">login_input</result>
+	    </action>
+	    
+	    <!--  
+	    <action name="editSignon" class="com.usemodj.jpetstore.struts.action.EditSignonAction" method="input">
+	    	<result name="input">/signon/edit.jsp</result>
+	    </action>
+	    -->
+	    <action name="signon_*" class="com.usemodj.jpetstore.struts.action.EditSignonAction" method="{1}">
+	        <result name="login">/signon/login.jsp</result>
+	        <result name="input">/signon/edit.jsp</result>
+	    	<result name="success" type="redirectAction">index</result>
+	    </action>
+      <action name="register_*" class="com.usemodj.jpetstore.struts.action.RegisterAction" method="{1}">
+	      <result name="input">/signon/register.jsp</result>
+	    	<result name="success" type="redirectAction">signon_input</result>
+	    </action>
+      <action name="changePassword_*" class="com.usemodj.jpetstore.struts.action.ChangePasswordAction" method="{1}">
+	      <result name="input">/signon/password.jsp</result>
+	      <result name="login">/signon/login.jsp</result>
+	    	<result name="success" type="redirectAction">login_input</result>
+	    </action>
+    </package>
+    
+    <package name="shop" namespace="/shop" extends="struts-default">
+      <action name="category_*" class="com.usemodj.jpetstore.struts.action.CategoryAction" method="{1}">
+	    	<result name="success">/catalog/category.jsp</result>
+	    	<result name="list">/catalog/categoryList.jsp</result>
+	    </action>
+      <action name="product_*" class="com.usemodj.jpetstore.struts.action.ProductAction" method="{1}">
+	    	<result name="success">/catalog/product.jsp</result>
+	    	<result name="list">/catalog/productList.jsp</result>
+	    </action>
+      <action name="item_*" class="com.usemodj.jpetstore.struts.action.ItemAction" method="{1}">
+	    	<result name="success">/catalog/item.jsp</result>
+	    	<result name="list">/catalog/itemList.jsp</result>
+	    	<result name="view">/catalog/itemView.jsp</result>
+	    </action>
+      <action name="cart_*" class="com.usemodj.jpetstore.struts.action.CartAction" method="{1}">
+	    	<result name="success">/cart/cart.jsp</result>
+	    	<result name="login" type="redirectAction">
+          <param name="actionName">login_input</param>
+          <param name="namespace">/</param>
+          <param name="url">${url}</param>
+	    	</result>
+	    	<result name="checkout">/cart/checkout.jsp</result>
+        <!--
+          <result name="input" type="redirectAction">shop/cart.action?url=${url}</result>
+          -->
+       <result name="input" type="redirectAction">
+          <param name="actionName">cart.action</param>
+          <param name="namespace">/shop</param>
+          <param name="url">${url}</param>
+        </result>
+	    </action>
+	    
+      <action name="shipping_*" class="com.usemodj.jpetstore.struts.action.ShippingAction" method="{1}">
+	    	<result name="input">/order/shipping.jsp</result>
+	    	<result name="success" type="redirectAction">
+	    		<param name="actionName">order_input</param>
+	    		<param name="namespace">/shop</param>
+	    	</result>
+	    	<result name="login" type="redirectAction">
+	    		<param name="actionName">login_input</param>
+	    		<param name="namespace">/</param>
+	    	</result>
+	    	<result name="redirect" type="redirect">${url}</result>
+	    </action>
+      <action name="order_*" class="com.usemodj.jpetstore.struts.action.OrderAction" method="{1}">
+	    	<result name="input">/order/orderConfirm.jsp</result>
+	    	<result name="success">/order/orderSuccess.jsp</result>
+	    	<result name="cart" type="redirectAction">cart</result>
+	    	<result name="list" >/order/orderList.jsp</result>
+	      <result name="view" >/order/orderView.jsp</result>
+      	<result name="login" type="redirectAction">
+	    		<param name="actionName">login_input</param>
+	    		<param name="namespace">/</param>
+	    	</result>
+	    </action>
+   </package>
+ 
+    <package name="admin" namespace="/admin" extends="struts-default">
+      <action name="category_*" class="com.usemodj.jpetstore.struts.admin.action.CategoryAction" method="{1}">
+        <result name="success">/admin/catalog/category.jsp</result>
+        <result name="list">/admin/catalog/categoryList.jsp</result>
+      </action>
+    </package>
+
+    <!-- Add packages here -->
+
+</struts>

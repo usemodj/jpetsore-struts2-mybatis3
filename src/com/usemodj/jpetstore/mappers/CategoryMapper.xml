@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.usemodj.jpetstore.mappers.CategoryMapper">
+  <resultMap id="selectCategoryListResult" type="com.usemodj.jpetstore.domain.Category">
+		<id property="categoryId" column="catid"/>
+    <result property="name" column="name"/>
+    <result property="description" column="descn"/>
+    <result property="status" column="status"/>
+  </resultMap>
+	<select id="selectCategoryList" resultMap="selectCategoryListResult">
+		SELECT catid, name, descn, status 
+			FROM category
+	</select>
+	
+</mapper>

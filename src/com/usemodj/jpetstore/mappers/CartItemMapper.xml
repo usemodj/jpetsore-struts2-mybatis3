@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.usemodj.jpetstore.mappers.CartItemMapper">
+
+	<delete id="deleteCartItemByUserId" parameterType="string">
+		DELETE FROM cartitem 
+			WHERE userid = #{userId}
+	</delete>
+	<insert id="insertCartItem" parameterType="CartItem">
+		INSERT INTO cartitem 
+			(userid	,	   
+			itemid	,	
+			quantity,	
+			instock	,	
+			total		,	
+			created_on)
+		VALUES (
+			#{userId	},	   
+			#{itemId	},	
+			#{quantity},	
+			#{inStock	},	
+			#{total		},	
+			NOW()
+		)		
+	</insert>
+	
+	<resultMap id="joinedItem" type="Item">
+		<id property="itemId"  				column="item_itemid"/>    
+		<result property="productId"	column="item_productid"/> 	  
+		<result property="listPrice"  column="item_listprice"/>
+		<result property="unitCost"   column="item_unitcost" />
+		<result property="supplierId" column="item_supplier" />
+		<result property="status"     column="item_status"   />
+		<result property="attribute1" column="item_attr1"    />
+		<result property="attribute2" column="item_attr2"    />
+		<result property="attribute3" column="item_attr3"    />
+		<result property="attribute4" column="item_attr4"    />
+		<result property="attribute5" column="item_attr5"    />
+	</resultMap>
+	<resultMap id="joinedCartItem" type="CartItem">
+		<id property="userId"  			column="cartItem_userid"		/>  
+		<id property="itemId"       column="cartItem_itemid"		/>  
+		<result property="quantity" column="cartItem_quantity"	/>  
+		<result property="inStock"  column="cartItem_instock"		/>
+		<result property="total"    column="cartItem_total"			/>
+		<result property="createOn" column="cartItem_created_on"/> 
+		<association property="item" column="cartItem_itemid" resultMap="joinedItem"/>
+	</resultMap>
+	<select id="selectCartItemList"  parameterType="string" resultMap="joinedCartItem">
+		SELECT
+			C.userid		 AS cartItem_userid		,
+			C.itemid		 AS cartItem_itemid		,
+			C.quantity	 AS cartItem_quantity	,
+			C.instock		 AS cartItem_instock		,
+			C.total			 AS cartItem_total			,
+			C.created_on AS cartItem_created_on ,
+		
+			I.itemid 	  	AS item_itemid,
+			I.productid 	AS item_productid,
+			I.listprice 	AS item_listprice,
+			I.unitcost  	AS item_unitcost,
+			I.supplier  	AS item_supplier,
+			I.status			AS item_status,  
+			I.attr1 			AS item_attr1,   
+			I.attr2 			AS item_attr2,   
+			I.attr3 			AS item_attr3,   
+			I.attr4 			AS item_attr4,   
+			I.attr5     	AS item_attr5   
+		FROM cartItem C
+			LEFT OUTER JOIN item I ON C.itemid = I.itemid 
+		WHERE C.userid = #{userId}
+	</select>
+</mapper>

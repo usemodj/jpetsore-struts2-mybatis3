@@ -1,0 +1,1 @@
+ALTER TABLE `jpetstore`.`account` ADD COLUMN `cellphone` VARCHAR(80) NULL DEFAULT NULL  AFTER `phone` ;

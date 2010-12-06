@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.usemodj.jpetstore.mappers.SequenceMapper">
+	<select id="selectNextId" parameterType="string" resultType="int">
+		SELECT 
+			nextid AS nextId
+		FROM sequence
+		WHERE name = #{name}
+	</select>
+	<select id="selectSequence" parameterType="string" resultType="Sequence">
+		SELECT
+			name	 AS name, 
+			nextid AS nextId
+		FROM sequence
+		WHERE name = #{name}
+	</select>
+	<update id="updateSequence" parameterType="Sequence">
+		UPDATE sequence
+			SET nextid = #{nextId}
+			WHERE name = #{name}
+	</update>
+	<insert id="insertSequence" parameterType="Sequence">
+		INSERT INTO sequence (name, nextid)
+			VALUES (#{name}, #{nextId})
+	</insert>
+</mapper>

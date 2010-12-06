@@ -1,0 +1,40 @@
+* {
+margin:0;
+padding:0;
+}
+html {
+	background:none repeat scroll 0 0 #ffffff;
+	/*color:#EEEEEE;*/
+	font:75%/1.7 Helvetica,AppleGothic,Gulim,'±¼¸²',sans-serif;
+	height:100%;
+	margin-bottom:1px;
+}
+body {
+}
+
+.round1, .round2, .round4 {
+	font-size:0;
+	height:2px;
+	margin:0;
+	padding:0;
+}
+
+.round1 {
+	border-left:1px solid #FFFFFF;
+	border-right:1px solid #FFFFFF;
+}
+
+.round2 {
+	border-left:2px solid #FFFFFF;
+	border-right:2px solid #FFFFFF;
+}
+.round4 {
+	border-left:4px solid #FFFFFF;
+	border-right:4px solid #FFFFFF;
+}
+
+.pmeta_bubble_bg {
+	background:none repeat scroll 0 0 #E5ECF9;
+	margin-bottom:0.6em;
+}
+

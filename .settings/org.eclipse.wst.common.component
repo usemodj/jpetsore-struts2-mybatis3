@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="jpetstore-struts2-mybatis3">
+        <wb-resource deploy-path="/" source-path="/WebContent"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes/" source-path="/ImportedClasses"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/WebContent/WEB-INF/src/java"/>
+        <property name="java-output-path" value="/struts2-blank-2.1.8.1/build/classes"/>
+        <property name="context-root" value="jpetstore-struts2-mybatis3"/>
+    </wb-module>
+</project-modules>

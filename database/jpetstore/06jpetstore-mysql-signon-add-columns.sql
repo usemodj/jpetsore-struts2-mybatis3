@@ -1,0 +1,1 @@
+ALTER TABLE `jpetstore`.`signon` ADD COLUMN `role` VARCHAR(25) NULL  AFTER `password` ;

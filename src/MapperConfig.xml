@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+  <properties resource="database.properties">
+    <property name="driver" value="com.mysql.jdbc.Driver"/>
+  </properties>
+
+  <settings>
+    <setting name="cacheEnabled" value="true"/>
+    <setting name="lazyLoadingEnabled" value="false"/>
+    <setting name="multipleResultSetsEnabled" value="true"/>
+    <setting name="useColumnLabel" value="true"/>
+    <setting name="useGeneratedKeys" value="false"/>
+    <setting name="defaultExecutorType" value="SIMPLE"/>
+    <setting name="defaultStatementTimeout" value="25000"/>
+  </settings>
+
+  <typeAliases>
+  	<!-- blog domain -->
+    <typeAlias alias="Author" 	type="com.usemodj.blog.domain.Author"/>
+    <typeAlias alias="Blog" 	type="com.usemodj.blog.domain.Blog"/>
+    <typeAlias alias="Comment" 	type="com.usemodj.blog.domain.Comment"/>
+    <typeAlias alias="Post" 	type="com.usemodj.blog.domain.Post"/>
+    <typeAlias alias="Section" 	type="com.usemodj.blog.domain.Section"/>
+    <typeAlias alias="Tag" 		type="com.usemodj.blog.domain.Tag"/>
+	<!-- jpetstore domain -->
+    <typeAlias alias="Account" 	type="com.usemodj.jpetstore.domain.Account"/>
+    <typeAlias alias="Cart" 	type="com.usemodj.jpetstore.domain.Cart"/>
+    <typeAlias alias="CartItem" type="com.usemodj.jpetstore.domain.CartItem"/>
+    <typeAlias alias="Category" type="com.usemodj.jpetstore.domain.Category"/>
+    <typeAlias alias="Item" 	type="com.usemodj.jpetstore.domain.Item"/>
+    <typeAlias alias="LineItem" type="com.usemodj.jpetstore.domain.LineItem"/>
+    <typeAlias alias="Order" 	type="com.usemodj.jpetstore.domain.Order"/>
+    <typeAlias alias="Product" 	type="com.usemodj.jpetstore.domain.Product"/>
+    <typeAlias alias="Sequence" type="com.usemodj.jpetstore.domain.Sequence"/>
+    <typeAlias alias="Signon" 	type="com.usemodj.jpetstore.domain.Signon"/>
+    <typeAlias alias="Inventory" 	type="com.usemodj.jpetstore.domain.Inventory"/>
+    <typeAlias alias="OrderStatus" 	type="com.usemodj.jpetstore.domain.OrderStatus"/>
+  <!--  TODO: 
+    <typeAlias alias="Profile" type="com.usemodj.jpetstore.domain.Profile"/>
+    <typeAlias alias="Supplier" 	type="com.usemodj.jpetstore.domain.Supplier"/>
+    <typeAlias alias="Bannerdata" type="com.usemodj.jpetstore.domain.Bannerdata"/>
+  -->
+  </typeAliases>
+<!--  
+  <typeHandlers>
+    <typeHandler javaType="String" jdbcType="VARCHAR" handler="org.apache.ibatis.builder.ExampleTypeHandler"/>
+  </typeHandlers>
+
+  <objectFactory type="org.apache.ibatis.builder.ExampleObjectFactory">
+    <property name="objectFactoryProperty" value="100"/>
+  </objectFactory>
+
+  <plugins>
+    <plugin interceptor="org.apache.ibatis.builder.ExamplePlugin">
+      <property name="pluginProperty" value="100"/>
+    </plugin>
+  </plugins>
+-->
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC">
+        <property name="" value=""/>
+      </transactionManager>
+      <dataSource type="UNPOOLED">
+        <property name="driver" value="${driver}"/>
+        <property name="url" value="${url}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>
+      </dataSource>
+    </environment>
+    <environment id="production">
+      <transactionManager type="JDBC">
+        <property name="" value=""/>
+      </transactionManager>
+      <dataSource type="POOLED">
+        <property name="driver" value="${driver}"/>
+        <property name="url" value="${url}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>
+      </dataSource>
+    </environment>
+  </environments>
+
+  <mappers>
+  	<!-- blog mapper -->
+    <mapper resource="com/usemodj/blog/mappers/AuthorMapper.xml"/>      
+    <mapper resource="com/usemodj/blog/mappers/BlogMapper.xml"/>        
+    <mapper resource="com/usemodj/blog/mappers/PostMapper.xml"/>        
+    <mapper resource="com/usemodj/blog/mappers/NestedBlogMapper.xml"/> 
+    <mapper resource="com/usemodj/blog/mappers/CachedAuthorMapper.xml"/>
+    <!-- jpetstore mapper -->
+    <mapper resource="com/usemodj/jpetstore/mappers/SignonMapper.xml"/>
+    <mapper resource="com/usemodj/jpetstore/mappers/AccountMapper.xml"/>      
+    <mapper resource="com/usemodj/jpetstore/mappers/CategoryMapper.xml"/>        
+    <mapper resource="com/usemodj/jpetstore/mappers/ProductMapper.xml"/>
+    <mapper resource="com/usemodj/jpetstore/mappers/ItemMapper.xml"/> 
+    <mapper resource="com/usemodj/jpetstore/mappers/InventoryMapper.xml"/> 
+    <mapper resource="com/usemodj/jpetstore/mappers/CartItemMapper.xml"/>
+    <mapper resource="com/usemodj/jpetstore/mappers/LineItemMapper.xml"/>      
+    <mapper resource="com/usemodj/jpetstore/mappers/OrderMapper.xml"/>        
+    <mapper resource="com/usemodj/jpetstore/mappers/SequenceMapper.xml"/>
+
+    <!-- TODO: jpetstore mapper 
+    <mapper resource="com/usemodj/jpetstore/mappers/CartMapper.xml"/>        
+    <mapper resource="com/usemodj/jpetstore/mappers/OrderStatusMapper.xml"/>      
+    <mapper resource="com/usemodj/jpetstore/mappers/ProfileMapper.xml"/>        
+    <mapper resource="com/usemodj/jpetstore/mappers/SupplierMapper.xml"/>        
+    <mapper resource="com/usemodj/jpetstore/mappers/BannerdataMapper.xml"/>        
+    -->
+  </mappers>
+
+</configuration>
+
+

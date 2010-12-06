@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.usemodj.jpetstore.mappers.AccountMapper">
+  <select id="selectAccount" parameterType="string" resultType="Account">
+		SELECT userid	 ,  
+		    email			, 
+		    firstname,  
+		    lastname	, 
+		    status		, 
+		    addr1			, 
+		    addr2			, 
+		    city			, 
+		    state			, 
+		    zip				, 
+		    country		, 
+		    phone			, 
+		    cellphone
+		FROM account
+		WHERE userid = #{userid};
+  </select>
+
+  <insert id="insertAccount"
+          parameterType="com.usemodj.jpetstore.domain.Account">
+	   INSERT INTO Account 
+	    (userid	 ,  
+	    email			, 
+	    firstname,  
+	    lastname	, 
+	    status		, 
+	    addr1			, 
+	    addr2			, 
+	    city			, 
+	    state			, 
+	    zip				, 
+	    country		, 
+	    phone			,
+	    cellphone)
+	    VALUES (
+				#{userid	  },  
+		    #{email			}, 
+		    #{firstname },  
+		    #{lastname	}, 
+		    #{status		}, 
+		    #{addr1			}, 
+		    #{addr2			}, 
+		    #{city			}, 
+		    #{state			}, 
+		    #{zip				}, 
+		    #{country		}, 
+		    #{phone			},
+		    #{cellphone }
+		  ) 
+  </insert>
+
+  <update id="updateAccount"
+          parameterType="com.usemodj.jpetstore.domain.Account">
+    UPDATE Account
+    SET userid	  = #{userid	  },
+        email			= #{email			},
+        firstname = #{firstname },
+        lastname	= #{lastname	},
+        status		= #{status		},
+        addr1			= #{addr1			},
+        addr2			= #{addr2			},
+        city			= #{city			},
+        state			= #{state			},
+        zip				= #{zip				},
+        country		= #{country		},
+        phone			= #{phone			},
+        cellphone = #{cellphone } 
+    WHERE userid = #{userid}
+  </update>  
+
+</mapper>
